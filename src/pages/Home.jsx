@@ -12,14 +12,14 @@ const Home = () => {
   React.useEffect(() => {
     fetch('https://63f9e49dbeec322c57e960a3.mockapi.io/items')
       .then((res) => res.json())
-
       .then((arr) => {
         setItems(arr);
         setIsLoading(false);
       });
+    window.scrollTo(0, 0);
   }, []);
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Categories />
         <Sort />
@@ -39,7 +39,7 @@ const Home = () => {
               />
             ))}
       </div>
-    </>
+    </div>
   );
 };
 export default Home;
