@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import qs from 'qs';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategotyId, setCurrentPage } from '../redux/slices/filterSlice';
+import { setCategotyId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 
 import Categories from '../components/Categories';
-import Sort from '../components/Sort';
+import Sort, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
@@ -26,6 +27,21 @@ const Home = () => {
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
+
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        }),
+      );
+    }
+  });
   React.useEffect(() => {
     setIsLoading(true);
 
@@ -33,17 +49,6 @@ const Home = () => {
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = seacrhValue ? `&search=${seacrhValue}` : '';
-
-    //   fetch(
-    //     `https://63f9e49dbeec322c57e960a3.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-    //   )
-    //     .then((res) => res.json())
-    //     .then((arr) => {
-    //       setItems(arr);
-    //       setIsLoading(false);
-    //     });
-    //   //window.scrollTo(0, 0);
-    // }, [categoryId, sort.sortProperty, seacrhValue, currentPage]);
 
     axios
       .get(
@@ -57,16 +62,7 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, seacrhValue, currentPage]);
 
-  const pizzas = items.map((obj) => (
-    <PizzaBlock
-      key={obj.id}
-      title={obj.title}
-      price={obj.price}
-      imageUrl={obj.imageUrl}
-      sizes={obj.sizes}
-      types={obj.types}
-    />
-  ));
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
