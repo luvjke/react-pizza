@@ -1,5 +1,5 @@
 import React from 'react';
-import { addItem, clearItems, minusItem, removeItem } from '../redux/slices/cartSlice';
+import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 import { useDispatch } from 'react-redux';
 
 const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
@@ -23,9 +23,7 @@ const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
       dispatch(removeItem({ id, type, size }));
     }
   };
-  const onClickClear = () => {
-    dispatch(clearItems());
-  };
+
   return (
     <div className="cart__item">
       <div className="cart__item-img">
