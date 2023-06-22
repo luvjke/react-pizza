@@ -4,6 +4,7 @@ import './scss/app.scss';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import Fullpizza from './pages/Fullpizza';
 import NotFound from './pages/NotFound';
 import { Route, Routes } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/pizza/:id" element={<Fullpizza />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           }

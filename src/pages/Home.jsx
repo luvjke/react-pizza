@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import qs from 'qs';
 
@@ -61,7 +62,11 @@ const Home = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, seacrhValue, currentPage]);
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => (
+    <Link key={obj.id} to={`/pizza/${obj.id}`}>
+      <PizzaBlock {...obj} />
+    </Link>
+  ));
 
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
