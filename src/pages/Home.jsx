@@ -17,14 +17,11 @@ import Sort, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { categoryId, sort, currentPage } = useSelector(selectFilter);
+  const { categoryId, sort, currentPage, seacrhValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
-
-  const { seacrhValue } = React.useContext(SearchContext);
 
   const onChangeCategory = (id) => {
     dispatch(setCategotyId(id));

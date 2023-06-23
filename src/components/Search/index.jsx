@@ -1,14 +1,17 @@
 import React from 'react';
+import { setSearchValue } from '../../redux/slices/filterSlice';
 
-import { SearchContext } from '../../App';
 import styles from './Search.module.scss';
+import { useDispatch } from 'react-redux';
 
 const Search = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState('');
-  const { setSearchValue } = React.useContext(SearchContext);
+
   const inputRef = React.useRef();
 
   const OnClickClear = () => {
+    dispatch(setSearchValue(value));
     setSearchValue('');
     setValue('');
     inputRef.current.focus();
