@@ -18,17 +18,17 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-const Home = () => {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
   const { categoryId, sort, currentPage, seacrhValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategotyId(id));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   const getPizzas = async () => {
@@ -37,7 +37,16 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = seacrhValue ? `&search=${seacrhValue}` : '';
 
-    dispatch(fetchPizzas({ sortBy, order, category, search, currentPage }));
+    dispatch(
+      //@ts-ignore
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      }),
+    );
     window.scrollTo(0, 0);
   };
 
@@ -59,7 +68,7 @@ const Home = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, seacrhValue, currentPage]);
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     <Link key={obj.id} to={`/pizza/${obj.id}`}>
       <PizzaBlock {...obj} />
     </Link>
@@ -76,7 +85,7 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
         <div className="content__error-info">
-          Произошла ошибка <icon>😓</icon>
+          Произошла ошибка <span>😓</span>
           <p>
             Не удалось получить ПИЦЦУ^^
             <br />

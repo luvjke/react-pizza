@@ -5,13 +5,22 @@ import { addItem, selectCartItem } from '../../redux/slices/cartSlice';
 const typeNames = ['тонкое', 'традиционное'];
 const typeSizes = ['26', '30', '40'];
 
-function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+type PizzaBlockProps = {
+  id: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  imageUrl: string;
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
 
   const cartItems = useSelector(selectCartItem(id));
-  const addedCount = cartItems.reduce((sum, item) => sum + item.count, 0);
+  const addedCount = cartItems ? cartItems.count : 0;
 
   const onClickAdd = () => {
     const item = {
@@ -72,5 +81,5 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
       </div>
     </div>
   );
-}
+};
 export default PizzaBlock;
