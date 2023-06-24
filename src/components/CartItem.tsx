@@ -46,7 +46,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, type, size, price, count
       </div>
       <div className="cart__item-count">
         <div
-          onClick={onClickMinus}
+          onClick={count > 1 ? onClickMinus : onClickRemove}
           className="button button--outline button--circle cart__item-count-minus">
           <svg
             width="10"
