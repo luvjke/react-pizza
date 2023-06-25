@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import qs from 'qs';
 
@@ -23,10 +22,9 @@ const Home: React.FC = () => {
   const { categoryId, sort, currentPage, seacrhValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = React.useCallback((id: number) => {
     dispatch(setCategotyId(id));
-  };
-
+  }, []);
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
@@ -68,11 +66,7 @@ const Home: React.FC = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, seacrhValue, currentPage]);
 
-  const pizzas = items.map((obj: any) => (
-    <Link key={obj.id} to={`/pizza/${obj.id}`}>
-      <PizzaBlock {...obj} />
-    </Link>
-  ));
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
